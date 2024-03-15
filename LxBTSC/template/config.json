@@ -1,0 +1,25 @@
+{
+    "AVATARS_ENABLED": true,
+    "DOWNLOAD_DIR": "",
+    "EMBED_ENABLED": true,
+    "EMOTICONS_ENABLED": true,
+    "EVENT_BAN": true,
+    "EVENT_CHANNELCREATE": false,
+    "EVENT_CHANNELDELETE": false,
+    "EVENT_CLIENTCONNECT": true,
+    "EVENT_CLIENTDISCONNECT": true,
+    "EVENT_KICK": true,
+    "EVENT_MOVEOTHER": true,
+    "EVENT_MOVESELF": true,
+    "EVENT_SELFCONNECT": true,
+    "EVENT_SELFDISCONNECT": true,
+    "FAVICONS_ENABLED": true,
+    "FONT_SIZE": 9,
+    "GENERICS_DISABLED": false,
+    "HISTORY_ENABLED": true,
+    "HOVER_ANIMATES_GIFS": false,
+    "MAX_HISTORY": 50,
+    "MAX_LINES": 500,
+    "REMOTE_EMOTES": [
+    ]
+}
