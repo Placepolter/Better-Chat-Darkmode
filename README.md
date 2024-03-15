@@ -1,4 +1,8 @@
 # Better Chat plugin for TeamSpeak 3
+
+### Disclaimer i do not own this code this is just an modified version for friends
+
+
 [![Build status](https://ci.appveyor.com/api/projects/status/5x17tael0j88eeuh?svg=true)](https://ci.appveyor.com/project/Luch00/lxbtsc)
 
 Releases: [Here](https://github.com/Luch00/LxBTSC/releases)
