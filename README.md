@@ -4,14 +4,14 @@
 
 * clean install for darkmode:
   * step 1 download version 1.14 [Here](https://github.com/Luch00/LxBTSC/releases)
-  * step 2 go to \Teamspeak 3\config\plugins and replace the QtLxBTSC_win64.dll file with [This](https://github.com/Luch00/LxBTSC/files/12210086/QtLxBTSC_win64.zip)
-  * step 3 Then add [chat_files](https://github.com/Placepolter/Better-Chat-Darkmode/tree/369df1eb51490774aaacbd937b9461e1ae16560a/LxBTSC/template/chat_files) and replace [chat.html](https://github.com/Placepolter/Better-Chat-Darkmode/blob/369df1eb51490774aaacbd937b9461e1ae16560a/LxBTSC/template/chat.html) in \Teamspeak 3\config\plugins\LxBTSC\template
+  * step 2 go to ``` \Teamspeak 3\config\plugins and replace the QtLxBTSC_win64.dll ``` file with [This](https://github.com/Luch00/LxBTSC/files/12210086/QtLxBTSC_win64.zip)
+  * step 3 Then add [chat_files](https://github.com/Placepolter/Better-Chat-Darkmode/tree/369df1eb51490774aaacbd937b9461e1ae16560a/LxBTSC/template/chat_files) and replace [chat.html](https://github.com/Placepolter/Better-Chat-Darkmode/blob/369df1eb51490774aaacbd937b9461e1ae16560a/LxBTSC/template/chat.html) in ``` \Teamspeak 3\config\plugins\LxBTSC\template ```
   * step 4 restart TS3 if its still running
   * step 5 profit
 
 
-
 ## --------------Ignore all of this below---------------
+
 
 [![Build status](https://ci.appveyor.com/api/projects/status/5x17tael0j88eeuh?svg=true)](https://ci.appveyor.com/project/Luch00/lxbtsc)
 
