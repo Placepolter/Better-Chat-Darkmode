@@ -1,0 +1,471 @@
+/*
+ * Better Chat plugin for TeamSpeak 3
+ * GPLv3 license
+ *
+ * Copyright (C) 2019 Luch (https://github.com/Luch00)
+*/
+@import url("style.user.css");
+body {
+    min-width: 300px;
+    word-wrap: break-word;
+    font-family: 'Helvetica Neue',Helvetica,sans-serif;
+    background-color: #FEFEFE;
+}
+img.Incoming {
+    content: url(message_incoming.png);
+    width: 16px;
+    height: 12px;
+}
+img.Outgoing {
+    content: url(message_outgoing.png);
+    width: 16px;
+    height: 12px;
+}
+img.InfoMessage {
+    content: url(message_info.png);
+    width: 16px;
+    height: 12px;
+}
+p {
+    padding: 0px;
+    margin: 0px;
+}
+.TextMessage_UserLink {
+    color: red;
+    text-decoration: none;
+}
+.TextMessage_ServerLink {
+    text-decoration: none;
+}
+.TextMessage_Normal {
+    color: #000000;
+}
+.TextMessage_Connected, .TextMessage_Disconnected, .TextMessage_ClientDisconnected, .TextMessage_ClientConnected {
+    color: #0000ee;
+}
+.TextMessage_ClientJoined {
+    color: #009900;
+}
+.TextMessage_Time {
+    color: #000000;
+	font-weight: normal;
+}
+.TextMessage_Welcome {
+    color: #0AA537;
+}
+.TextMessage_ClientDropped {
+    color: #C9070A;
+}
+.TextMessage_ClientKicked, .TextMessage_ClientBanned {
+    color: #C9070A;
+    /*display: none;*/
+}
+.TextMessage_Console {
+    color: #0000ee;
+}
+.TextMessage_Poke {
+    color: #0AA537;
+}
+.TextMessage_ServerError {
+    color: #C9070A;
+    font-weight: bold;
+}
+.TextMessage_Text {
+    white-space: pre-wrap;
+}
+
+.embed-image {
+    max-width: 100%;
+    max-height: 250px;
+}
+
+video {
+    max-width: 100%;
+}
+
+.outer-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.embed-container {
+    background-color: lightgray;
+    padding: 3px 5px;
+    display: inline-block;
+}
+
+.close-embeds {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.1;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    width: 15px;
+    font-size: 12pt;
+}
+
+.close-embeds:hover {
+    color: lightgray;
+    background: darkgray;
+    opacity: 1;
+}
+
+.close-embeds:visited {
+    color: black;
+}
+
+.url-favicon {
+    padding: 0px 1px 0px 1px;
+    vertical-align: text-top;
+}
+
+.embedded-image {
+    max-height: 300px;
+    max-width: 500px;
+}
+
+.emote-menu {
+    display: none;
+    position: fixed;
+    padding: 10px;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 80%;
+    background: #FFF;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.emote-menu.menu-visible {
+    /*display: block;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background-color: #ddd;
+}
+
+#popup {
+    -webkit-box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+    box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+}
+#tenor {
+    overflow: hidden;
+    height: 100%;
+}
+#emote-list {
+    height: 100%;
+    width: 100%;
+    padding-right: 10px;
+    overflow: auto;
+}
+.tenor-results-wrap {
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    overflow: auto;
+    width: calc(100% - 10px);
+}
+
+.emote-container > .emote {
+    padding: 1px;
+    cursor: pointer;
+    max-height: 32px;
+}
+.emotetabs {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    height: 25px;
+}
+.emotetabs button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 10px;
+}
+.emotetabs button:hover {
+    background-color: #ddd;
+}
+.emotetabs button.active {
+    background-color: #bbb;
+}
+.tenor-searchbox, .tenor-loadmore {
+    padding: 8px;
+    text-align: center;
+}
+.tenor-searchbox input {
+    width: 80%;
+}
+.tenor-gif {
+    margin-left: 4px;
+    cursor: pointer;
+}
+
+.set-header {
+    text-align: center;
+    padding: 2px;
+    font-size: 8pt;
+}
+
+.tooltipper {
+    background-color: black;
+    color: #FFF;
+    font-size: 0.7em;
+    position: absolute;
+    z-index: 999;
+    padding: 4px;
+    border-radius: 3px;
+    width: 120px;
+    text-align: center;
+    top: -10000px;
+    left: -10000px;
+    margin-bottom: 8px;
+}
+
+.tooltipper:empty {
+    display: none;
+}
+
+.chattab {
+    display: none;
+}
+
+.chattab > * {
+    clear: left;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.tweet-container, .generic-og-embed {
+    background-color: #FEFEFE;
+    padding: 8px;
+}
+
+.twitter-username, .embed-og-title {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    padding-left: 4px;
+}
+
+.twitter-username:hover, .embed-og-title:hover {
+    color: gray;
+}
+
+.twitter-description, .embed-og-description {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    white-space: pre-wrap;
+}
+
+.tweet-image {
+    max-width: 350px;
+    max-height: 175px;
+}
+
+.embed-og-image {
+    max-width: 150px;
+    max-height: 50px;
+}
+
+/* for avatar */
+.avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.TextMessage_UserLink.Outgoing {
+    color: #009900;
+}
+
+.avatar-container {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    margin-bottom: 5px;
+    -webkit-user-select: none;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #D3D3D3;
+    border-width: 1px;
+    background-color: #F5F5F5;
+}
+
+.static-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: top;
+}
+
+.hidden-image {
+    display: none;
+}
+
+.animate-avatar:hover > .avatar-container > .static-avatar {
+    display: none;
+}
+
+.animate-avatar:hover > .avatar-container > .hidden-image {
+    display: block;
+}
+
+.message-container {
+    margin-left: 48px;
+}
+
+.avatar-style-status {
+    margin-left: 48px;
+}
+
+.avatar-style.TextMessage_Time {
+    font-size: 12px;
+    color: #99aab5;
+}
+
+.message-content {
+    padding-top: 5px;
+}
+
+.avatar-style.TextMessage_Normal {
+    padding-bottom: 10px;
+}
+
+.default-avatar {
+    content: url(data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D);
+    background-image: url("avatar.png");
+    background-size: contain;
+}
+
+.history-divider {
+    text-align: center;
+    overflow: hidden;
+}
+
+.history-divider > span {
+    position: relative;
+    display: inline-block;
+}
+
+.history-divider > span:before,
+.history-divider > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: gray;
+}
+
+.history-divider > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.history-divider > span:after {
+    left: 100%;
+    margin-left: 15px;
+}
+
+.emote-mod-mirror {
+    transform: scaleX(-1);
+}
+
+.emote-mod-reverse {
+    transform: scaleY(-1);
+}
+
+.emote-mod-invert {
+    filter: invert(100%);
+}
+
+.emote-mod-spin {
+    animation: spin 2.5s linear infinite;
+}
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.emote-mod-spin2 {
+    animation: spin2 2.5s linear infinite;
+}
+@keyframes spin2 {
+    100% { transform: rotate(-360deg);}
+}
+
+.emote-mod-flip {
+    animation: flip 2s linear infinite;
+}
+@keyframes flip {
+    100% { transform: rotateY(360deg); }
+}
+
+.emote-mod-flap {
+    animation: flap 2s linear infinite;
+}
+@keyframes flap {
+    100% { transform: rotateX(360deg); }
+}
+
+.emote-mod-gift {
+    animation-name: gift;
+    animation-duration: 1ms;
+    animation-fill-mode: backwards;
+    animation-play-state: paused;
+}
+.emote-mod-gift:hover {
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+@keyframes gift {
+    0% { content: url('data:image/png;base64,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'); }
+    100% { content: none; }
+}
+
+.emote-mod-shake {
+    animation: shake 0.1s linear infinite;
+}
+@keyframes shake {
+    100% { transform: translate(-2px, 0px) rotate(0deg); }
+}
+
+.emote-mod-triggered {
+    animation: triggered 0.2s linear infinite;
+}
+@keyframes triggered {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
