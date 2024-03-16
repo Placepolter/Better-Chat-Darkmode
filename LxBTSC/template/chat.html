@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<!-- saved from url=(0080)file:///D:/Alles%20andere/Teamspeak%203/config/plugins/LxBTSC/template/chat.html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="./chat_files/style.css">
-        <link rel="stylesheet" type="text/css" href="./chat_files/xbbcode.css">
-        <link rel="stylesheet" type="text/css" href="./chat_files/freezeframe_styles.min.css">
-        <link rel="stylesheet" type="text/css" href="./chat_files/jquery.fancybox.min.css">
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' type='text/css' href='style/style.css'/>
+        <link rel='stylesheet' type='text/css' href='style/xbbcode.css'/>
+        <link rel='stylesheet' type='text/css' href='style/freezeframe_styles.min.css'/>
+        <link rel='stylesheet' type='text/css' href='style/jquery.fancybox.min.css'/>
 
-        <script type="text/javascript" src="./chat_files/jquery-3.2.1.min.js.download"></script>
-        <script type="text/javascript" src="./chat_files/qwebchannel.js.download"></script>
-        <script type="text/javascript" src="./chat_files/xbbcode.js.download"></script>
-        <script type="text/javascript" src="./chat_files/config.js.download"></script>
-        <script type="text/javascript" src="./chat_files/tabs.js.download"></script>
-        <script type="text/javascript" src="./chat_files/messages.js.download"></script>
-        <script type="text/javascript" src="./chat_files/embed.js.download"></script>
-        <script type="text/javascript" src="./chat_files/emotes.js.download"></script>
-        <script type="text/javascript" src="./chat_files/favicons.js.download"></script>
-        <script type="text/javascript" src="./chat_files/anchorme.min.js.download"></script>
-        <script type="text/javascript" src="./chat_files/popper.min.js.download"></script>
-        <script type="text/javascript" src="./chat_files/jquery.fancybox.min.js.download"></script>
-        <script type="text/javascript" src="./chat_files/freezeframe.pkgd.min.js.download"></script>
-        <script type="text/javascript" src="./chat_files/tenor.js.download"></script>
-        <script type="text/javascript">
+        <script type='text/javascript' src='js/jquery-3.2.1.min.js'></script>
+        <script type='text/javascript' src='js/qwebchannel.js'></script>
+        <script type='text/javascript' src='js/xbbcode.js'></script>
+        <script type='text/javascript' src='js/config.js'></script>
+        <script type='text/javascript' src='js/tabs.js'></script>
+        <script type='text/javascript' src='js/messages.js'></script>
+        <script type='text/javascript' src='js/embed.js'></script>
+        <script type='text/javascript' src='js/emotes.js'></script>
+        <script type='text/javascript' src='js/favicons.js'></script>
+        <script type='text/javascript' src='js/Autolinker.min.js'></script>
+        <script type='text/javascript' src='js/popper.min.js'></script>
+        <script type='text/javascript' src='js/jquery.fancybox.min.js'></script>
+        <script type='text/javascript' src='js/freezeframe.pkgd.min.js'></script>
+        <script type='text/javascript' src='js/tenor.js'></script>
+        <script type='text/javascript'>
         /*
          * Better Chat plugin for TeamSpeak 3
          * GPLv3 license
@@ -34,6 +34,7 @@
             var qtObject;
             var tooltip;
             var popper;
+            var autolinker = new Autolinker({newWindow: false, phone: false, mention: false, hashtag: false, stripPrefix: false, stripTrailingSlash: false });
 
             // keep chat scrolled to the bottom, if it was
             var stayDown = function() {
@@ -52,54 +53,24 @@
                 qtObject = channel.objects.wObject;
                 
                 qtObject.toggleEmoteMenu.connect(toggleEmoteMenu);
-                qtObject.textMessageReceived.connect(addTextMessage);
-                qtObject.printConsoleMessage.connect(addConsoleMessage);
                 qtObject.tabChanged.connect(showTab);
                 qtObject.addServer.connect(addServerTabs);
                 qtObject.loadEmotes.connect(loadEmotes);
                 qtObject.configChanged.connect(configChanged);
 
-                qtObject.serverWelcomeMessage.connect(ts3ServerWelcome);
-                qtObject.serverConnected.connect(ts3ServerConnected);
-                qtObject.serverDisconnected.connect(ts3ServerDisconnected);
-                qtObject.serverStopped.connect(ts3ServerStopped);
-
-                //qtObject.serverConnectionLost.connect(Ts3ServerConnectionLost);
-
-                qtObject.clientConnected.connect(ts3ClientConnected);
-                qtObject.clientDisconnected.connect(ts3ClientDisconnected);
-                qtObject.clientTimeout.connect(ts3ClientTimeout);
-                qtObject.clientKickedFromChannel.connect(ts3ClientKickedFromChannel);
-                qtObject.clientKickedFromServer.connect(ts3ClientKickedFromServer);
-                qtObject.clientBannedFromServer.connect(ts3ClientBannedFromServer);
-
-                qtObject.clientPoked.connect(ts3ClientPoked);
+                qtObject.sendMessage.connect(messageSwitch);
             });
-
-            function waitForQt() {
-                // try to make sure qwebchannel exists before loading config
-                setTimeout(function() {
-                    qtObject.getDone(function(done) {
-                        if (done === true) {
-                            loadConfig()
-                            .then(function() {
-                                $('.chattab').css('font-size', Config.FONT_SIZE + 'pt');
-                                loadEmotes();
-                                initTenor();
-                            });
-                        }
-                        else {
-                            waitForQt();
-                        }
-                });
-                }, 100);
-            }
             
             window.onload = function() {
                 main = $('#main');
                 tooltip = $('.tooltipper');
                 Emotes.emoteListElement = $('#emote-list');
-                waitForQt();
+
+                loadConfig()
+                .then(function() {
+                    $('.chattab').css('font-size', Config.FONT_SIZE + 'pt');
+                    initTenor();
+                });
 
                 // monitor body and window resizing
                 obs.observe(main[0]);
@@ -192,6 +163,7 @@
             }
 
             function loadEmotes() {
+                console.log("loademotes");
                 Emotes.clear();
                 Emotes.load();
             }
@@ -213,26 +185,24 @@
         </script>
     </head>
     <body id="main" background="./style/shanks_is_gay.png">
-    
-        <div class="tooltipper">Tooltiptext</div>
-        <div class="emote-menu" id="popup">
+        <div class='tooltipper'>Tooltiptext</div>
+        <div class='emote-menu' id='popup'>
             <div class="emotetabs">
-                <button class="emote-tablink active" onclick="openTab(event, &#39;emote-list&#39;)">Emotes</button>
-                <button class="emote-tablink" onclick="openTab(event, &#39;tenor&#39;)">Gif Search</button>
+                <button class="emote-tablink active" onclick="openTab(event, 'emote-list')">Emotes</button>
+                <button class="emote-tablink" onclick="openTab(event, 'tenor')">Gif Search</button>
             </div>
-            <div id="emote-list" class="tabcontent custom-scroll"></div>
-            <div id="tenor" class="tabcontent" style="display:none;">
-                <div class="tenor-searchbox">
-                    <input id="tenor-search" type="text" placeholder="Search Tenor" onkeyup="searchTenor()" onclick="this.select()">
+            <div id='emote-list' class='tabcontent custom-scroll'></div>
+            <div id='tenor' class='tabcontent' style="display:none;">
+                <div class='tenor-searchbox'>
+                    <input id='tenor-search' type="text" placeholder="Search Tenor" onkeyup="searchTenor()" onclick="this.select()"/>
                 </div>
-                <div class="tenor-results-wrap custom-scroll">
-                    <div id="tenor-results"></div>
-                    <div class="tenor-loadmore">
-                        <button id="tenor-load" onclick="searchMore()">Load More</button>
-                            
+                <div class='tenor-results-wrap custom-scroll'>
+                    <div id='tenor-results'></div>
+                    <div class='tenor-loadmore'>
+                        <button id='tenor-load' onclick="searchMore()">Load More</button>
                     </div>
                 </div>
             </div>
         </div>
-    
-</body></html>
+    </body>
+</html>
