@@ -38,7 +38,7 @@ p {
     text-decoration: none;
 }
 .TextMessage_Normal {
-    color: #000000;
+    color: #ffffff;
 }
 .TextMessage_Connected, .TextMessage_Disconnected, .TextMessage_ClientDisconnected, .TextMessage_ClientConnected {
     color: #0000ee;
